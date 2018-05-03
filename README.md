@@ -11,7 +11,7 @@ Link describes how meta-data can be embedded along with the data, and how to sto
 
 Link is designed as a protocol that rides on top of existing blockchain protocols, and it purposefully does NOT specify the rules for usage, only the suggested message types, called op-codes. It's entirely up to the message creator, and the consuming client for how to intrepret the information present. It's implied that any message type can be repeated multiple times, and in fact for multi-transaction messages, this is a requirement of the parser.
 
-##Link Transaction Format
+## Link Transaction Format
 
 Link transactions contain a specific format, but are really just normal transactions with specially formatted addresses. This allows for normal blockchain operations in a Link transaction.
 
@@ -64,9 +64,9 @@ The following Link op-codes are supported:
 | F2 |Replaces transaction |
 | FF |Next transaction in sequence (required for multi-transaction sequences) |
 
-##Payload Op-Codes (0)
+## Payload Op-Codes (0)
 
-###Payload (inline disposition)
+### Payload (inline disposition)
 
 Payload is intended to be extracted from the data in accordance with the encoding and disposition. Multiple payload blocks are allowed, and the data should be concatenated together in the sequence it appears in the stream. This allows payload data to span outputs, transactions, and even blocks.
 
@@ -77,7 +77,7 @@ Inline payloads are designed to be handled by the client by delegating to a prot
  1. 2 bytes encoding payload size X
  2. X bytes as specified by operand 1, encoding the payload
 
-###Payload (attachment disposition)
+### Payload (attachment disposition)
 
 This is the same as the inline payload, but instead of being executed as a protocol handler, the stream of bytes are expected to be saved to disk.
 
@@ -86,7 +86,7 @@ This is the same as the inline payload, but instead of being executed as a proto
  1. 2 bytes encoding operand 2 size X
  2. X bytes as specified by operand 1, encoding the payload
  
-###Payload mime-type
+### Payload mime-type
 
 This is the mime-type of the payload. The default encoding is "application/octet-stream".
 
@@ -95,7 +95,7 @@ This is the mime-type of the payload. The default encoding is "application/octet
  1. 1 byte encoding operand 2 size X
  2. X bytes as specified by operand 1, encoding the payload mime-type
 
-###Payload encoding
+### Payload encoding
 
 This is the type of encoding for the payload itself. The default encoding is "UTF-8", but others may be specified, like "base64".
 
@@ -104,7 +104,7 @@ This is the type of encoding for the payload itself. The default encoding is "UT
  1. 1 byte encoding the payload encoding string size X
  2. X bytes as specified by operand 1, encoding the payload encoding
 
-###Payload MD5
+### Payload MD5
 
 The MD5 hash of the payload.
 
@@ -112,7 +112,7 @@ The MD5 hash of the payload.
 * Operands: 1
  1. 16 bytes, the MD5 hash of the payload.
 
-###Payload SHA-1
+### Payload SHA-1
 
 The SHA-1 hash of the payload.
 
@@ -120,7 +120,7 @@ The SHA-1 hash of the payload.
 * Operands: 1
  1. 20 bytes, the SHA-1 hash of the payload
 
-###Payload SHA-256
+### Payload SHA-256
 
 The SHA-256 hash of the payload.
 
@@ -128,9 +128,9 @@ The SHA-256 hash of the payload.
 * Operands: 1
  1. 32 bytes, the SHA-256 hash of the payload
 
-##Meta-data op-codes (1)
+## Meta-data op-codes (1)
 
-###Name
+### Name
 
 The name of the sequence.
 
@@ -139,7 +139,7 @@ The name of the sequence.
  1. 2 bytes, the size of the file name X
  2. X bytes as specified by operand 1, the name of the sequence
 
-###Description
+### Description
 
 The description of the sequence.
 
@@ -148,7 +148,7 @@ The description of the sequence.
  1. 2 bytes, the size of the description X
  2. X bytes as specified by operand 1, the description of the sequence
 
-###Keywords
+### Keywords
 
 The keywords to index quick searches by. Expected to be a comma seperated list.
 
@@ -157,7 +157,7 @@ The keywords to index quick searches by. Expected to be a comma seperated list.
  1. 2 bytes, the size of the keywords X
  2. X bytes as specified by operand 1, the keywords
 
-###URI
+### URI
 
 The URI that is associated with this sequence.
 
@@ -166,7 +166,7 @@ The URI that is associated with this sequence.
  1. 2 bytes, the size of the URI X
  2. X bytes as specified by operand 1, the URI associated with this sequence
 
-###File Name
+### File Name
 
 The file name of the attachment payload. 
 
@@ -175,7 +175,7 @@ The file name of the attachment payload.
  1. 2 bytes, the size of the file name X
  2. X bytes as specified by operand 1, the URI associated with this sequence.
   
-###Original Creation Date (unix timestamp)
+### Original Creation Date (unix timestamp)
 
 The Unix timestamp of the original creation date.
 
@@ -183,13 +183,13 @@ The Unix timestamp of the original creation date.
 * Operands: 1
  1. 4 bytes, the unix timestamp of the original creation date
 
-###Last Modified Date (unix timestamp)
+### Last Modified Date (unix timestamp)
 
 * Op-code: 16
 * Operands: 1
  1. 4 bytes, the unix timestamp of the last modified date
 
-###Arbitrailly defined Meta-data
+### Arbitrailly defined Meta-data
 
 A "free form field" for unformatted meta-data.
 
@@ -198,11 +198,11 @@ A "free form field" for unformatted meta-data.
  1. 2 bytes, the size of the meta-data X
  2. X bytes as defined by operand 1, the meta-data
 
-##Sequencing op-codes (F)
+## Sequencing op-codes (F)
 
 Sequencing allows a Link sequence to span multiple transactions.
 
-###References transaction
+### References transaction
 
 This sequence is in reply to or reference another transaction.
 
@@ -210,7 +210,7 @@ This sequence is in reply to or reference another transaction.
 * Operands: 1
  1. 32 bytes, the id of the tx being references
 
-##Replaces transaction
+## Replaces transaction
 
 This sequence superceeds another transaction.
 
@@ -218,7 +218,7 @@ This sequence superceeds another transaction.
 * Operands: 1
  1. 32 bytes, the id of the tx being references
 
-##Next transaction in sequence
+## Next transaction in sequence
 
 This allows for multi-transaction sequences. By referencing another transaction which also has a Link sequence embedded in it, both transactions are considered included in the sequence.
 
@@ -226,9 +226,9 @@ This allows for multi-transaction sequences. By referencing another transaction 
 * Operands: 1
  1. 32 bytes, the id of the tx that continues this sequence
 
-##Example sequences
+## Example sequences
 
-###Basic file encoding
+### Basic file encoding
 
 Here we're encoding a file with the following properties:
 
@@ -274,7 +274,7 @@ Broken out:
 
 ```
 
-###Magnet link encoding
+### Magnet link encoding
 
 Magnet Link: magnet:?xt=urn:btih:fbab636f9c91fb58038055dfce83cd8099a7366e&dn=TPB+AFK%3A+The+Pirate+Bay+Away+from+Keyboard+%282013%29+720p+h264+581m
 ```
